@@ -91,6 +91,9 @@
 		27FDD0111546CAEA0013D099 /* WidgetTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDD0101546CAEA0013D099 /* WidgetTime.m */; };
 		27FDD0131546F7FC0013D099 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FDD0121546F7FC0013D099 /* EventKit.framework */; };
 		27FDD0161546F8110013D099 /* WidgetCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDD0151546F8110013D099 /* WidgetCalendar.m */; };
+		4CDFEBF31586D50B009CA2D6 /* WidgetRssSettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDFEBF21586D50B009CA2D6 /* WidgetRssSettingView.xib */; };
+		4CDFEBF81586DC64009CA2D6 /* MWRssMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDFEBF51586DC64009CA2D6 /* MWRssMonitor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4CDFEBF91586DC64009CA2D6 /* WidgetRss.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDFEBF71586DC64009CA2D6 /* WidgetRss.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +203,11 @@
 		27FDD0121546F7FC0013D099 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		27FDD0141546F8110013D099 /* WidgetCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WidgetCalendar.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		27FDD0151546F8110013D099 /* WidgetCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WidgetCalendar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4CDFEBF21586D50B009CA2D6 /* WidgetRssSettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WidgetRssSettingView.xib; sourceTree = "<group>"; };
+		4CDFEBF41586DC64009CA2D6 /* MWRssMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWRssMonitor.h; sourceTree = "<group>"; };
+		4CDFEBF51586DC64009CA2D6 /* MWRssMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWRssMonitor.m; sourceTree = "<group>"; };
+		4CDFEBF61586DC64009CA2D6 /* WidgetRss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetRss.h; sourceTree = "<group>"; };
+		4CDFEBF71586DC64009CA2D6 /* WidgetRss.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetRss.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,6 +464,7 @@
 		27F7CE65154192E600C66158 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				4CDFEBF01585876C009CA2D6 /* WidgetRssFeed */,
 				270ECAA6156E62C800ECCCED /* MWMWidgetDelegate.h */,
 				27F2B46C156E6CB1005738E8 /* MWMWidget.h */,
 				27F2B46D156E6CB1005738E8 /* MWMWidget.m */,
@@ -465,6 +474,18 @@
 				27E2930F15626E0100E0DB78 /* WidgetCalendar */,
 			);
 			name = Widgets;
+			sourceTree = "<group>";
+		};
+		4CDFEBF01585876C009CA2D6 /* WidgetRssFeed */ = {
+			isa = PBXGroup;
+			children = (
+				4CDFEBF41586DC64009CA2D6 /* MWRssMonitor.h */,
+				4CDFEBF51586DC64009CA2D6 /* MWRssMonitor.m */,
+				4CDFEBF61586DC64009CA2D6 /* WidgetRss.h */,
+				4CDFEBF71586DC64009CA2D6 /* WidgetRss.m */,
+				4CDFEBF21586D50B009CA2D6 /* WidgetRssSettingView.xib */,
+			);
+			name = WidgetRssFeed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -580,6 +601,7 @@
 				278C944B1581464E00BD6256 /* icon.png in Resources */,
 				27DFF4051581474700FF7121 /* Default@2x.png in Resources */,
 				27DFF4071581474B00FF7121 /* Default.png in Resources */,
+				4CDFEBF31586D50B009CA2D6 /* WidgetRssSettingView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +628,8 @@
 				2752BBEE157E1E9D0053FE77 /* TestViewController.m in Sources */,
 				2752BBF3157E26900053FE77 /* AlarmViewController.m in Sources */,
 				27EB0BAE157F67F900AE2186 /* MWMNotificationsManager.m in Sources */,
+				4CDFEBF81586DC64009CA2D6 /* MWRssMonitor.m in Sources */,
+				4CDFEBF91586DC64009CA2D6 /* WidgetRss.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

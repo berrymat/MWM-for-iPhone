@@ -46,6 +46,7 @@
                                     @"WidgetTime", @"03", 
                                     @"WidgetWeather", @"13", 
                                     @"WidgetCalendar", @"23", 
+                                    @"WidgetRss", @"33", 
                                     nil];
         [prefs setObject:layoutDict forKey:@"watchLayout"];
     }
@@ -85,7 +86,7 @@
 
     [MWManager sharedManager].delegate = masterViewController;
     
-    allWidgets = [NSMutableArray arrayWithObjects:@"WidgetTime", @"WidgetWeather", @"WidgetCalendar", @"WidgetPhoneStatus", nil];
+    allWidgets = [NSMutableArray arrayWithObjects:@"WidgetTime", @"WidgetWeather", @"WidgetCalendar", @"WidgetPhoneStatus", @"WidgetRss", nil];
     
     // Customize navigationbar
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"barbg.png"] forBarMetrics:UIBarMetricsDefault];

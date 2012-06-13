@@ -70,8 +70,11 @@
 }
 
 - (void)leftBarBtnPressed:(id)sender {
-    [[MWManager sharedManager] getDeviceType];
-    //[[MWManager sharedManager] setTimerWith:15 andID:0 andCounts:255];
+    NSLog(@"leftBarBtnPressed");
+
+    [[MWManager sharedManager] updateDisplay:kMODE_NOTIFICATION];
+    //[NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(test) userInfo:nil repeats:NO];
+    //[[MWManager sharedManager] getDeviceType];
 }
 
 - (IBAction) infoBtnPressed:(id)sender {
@@ -127,6 +130,10 @@
             [widget update:timestamp];
         }
     }
+}
+
+- (void) MWMBtn:(unsigned char)btnIndex atMode:(unsigned char)mode pressedForType:(unsigned char)type withMsg:(unsigned char)msg {
+    NSLog(@"btn pressed:%x mode:%x, type:%x, msg:%x", btnIndex, mode, type, msg);
 }
 
 #pragma mark - DragSliderView Delegate
@@ -222,6 +229,10 @@
         }
     }
     
+    for (int i = 0; i < liveWidgets.count; i++) {
+        [liveWidgets replaceObjectAtIndex:i withObject:[NSNull null]];
+    }
+    
     row1Label.text = row2Label.text = row3Label.text = @"";
     
     [self drawDisconnectedScreen];
@@ -268,10 +279,10 @@
 }
 			
 #pragma mark - View Controller lifecycle
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
+
     self.title = @"META WATCH";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"site-background.jpg"]];
     
@@ -283,11 +294,11 @@
     rightBarBtn.width = 30;
     self.navigationItem.rightBarButtonItem = rightBarBtn;
     
-//    UIBarButtonItem *leftBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"Change"
-//                                                                    style:UIBarButtonItemStyleBordered
-//                                                                   target:self
-//                                                                   action:@selector(leftBarBtnPressed:)]; 
-//    self.navigationItem.leftBarButtonItem = leftBarBtn;
+    UIBarButtonItem *leftBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"Test"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(leftBarBtnPressed:)]; 
+    self.navigationItem.leftBarButtonItem = leftBarBtn;
     
     self.appDelegate = [UIApplication sharedApplication].delegate;
     

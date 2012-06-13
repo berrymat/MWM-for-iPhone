@@ -127,6 +127,7 @@ static CGFloat widgetHeight = 32;
 }
 
 - (void) stopUpdate {
+    
 }
 
 - (void) update:(NSInteger)timestamp {
@@ -138,11 +139,15 @@ static CGFloat widgetHeight = 32;
         if ([[MWWeatherMonitor sharedMonitor] currentWeather]) {
             received = YES;
             [self drawWeather];
+            [delegate widget:self updatedWithError:nil];
         } else {
-            [self drawNullWeather];
+            if (received == NO) {
+                [self drawNullWeather];
+                [delegate widget:self updatedWithError:nil];
+            }
         }
         
-        [delegate widget:self updatedWithError:nil];
+        
     }
     if (timestamp < 0) {
         updatedTimestamp = (NSInteger)[NSDate timeIntervalSinceReferenceDate];
@@ -208,8 +213,8 @@ static CGFloat widgetHeight = 32;
     NSDictionary *weather = [[MWWeatherMonitor sharedMonitor] weatherDict];
     NSString *condition = [weather objectForKey:@"condition"];
 
-    NSString *location = [weather objectForKey:@"postal_code"];
-    
+    NSString *location = [weather objectForKey:@"city"];
+    //NSLog(@"%@", [weather description]);
     if (useCelsius) {
         temp = [weather objectForKey:@"temp_c"];
         low = [weather objectForKey:@"low_c"];
@@ -243,7 +248,15 @@ static CGFloat widgetHeight = 32;
     }
     
     [condition drawInRect:CGRectMake(0, 3, 41, 14) withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
-    [location drawInRect:CGRectMake(0, 16+7, 41, 7) withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
+    
+    CGSize drawingSize = [location sizeWithFont:font constrainedToSize:CGSizeMake(41, 14) lineBreakMode:UILineBreakModeWordWrap];
+    if (drawingSize.height < 8) {
+        [location drawInRect:CGRectMake(0, 16 + 7, 41, 7) withFont:font lineBreakMode:UILineBreakModeCharacterWrap alignment:UITextAlignmentCenter];
+    } else {
+        [location drawInRect:CGRectMake(0, 17, 41, 14) withFont:font lineBreakMode:UILineBreakModeCharacterWrap alignment:UITextAlignmentCenter];
+    }
+    
+    
     
     [weatherIcon drawInRect:CGRectMake(42, 4, 24, 24)];
     if (useCelsius) {

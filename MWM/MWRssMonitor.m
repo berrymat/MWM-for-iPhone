@@ -70,29 +70,24 @@ static MWRssMonitor *sharedMonitor;
     }
     
     NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"dataString: %@", dataString);
+    
+    // Parser seems to have issue if the <?xml ...> is not on the first line it parses.  This is not always the case
+    // e.g. http://www.metawatch.org/forums/thread/recent.xml has this issue. So trim whitespace/newlines off both ends.
+    NSString *trimmedString = [dataString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSLog(@"trimmedString: %@", trimmedString);
+    
     [dataString release];
     
     self.context = [NSMutableArray arrayWithObject:self];
     self.rssArray = nil;
     
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-    [parser setShouldProcessNamespaces:YES];
-    [parser setShouldResolveExternalEntities:YES];
-    [parser setShouldReportNamespacePrefixes:YES];
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[trimmedString dataUsingEncoding:NSUTF8StringEncoding]];
     [parser setDelegate:self];
     [parser parse];
-    [parser release];
+    [parser release];    
     
     [self.context removeLastObject];
     
-    /*
-    NSInteger lowInF = [[rssDict valueForKey:@"low"] integerValue];
-    [rssDict setValue:[NSString stringWithFormat:@"%d", ((lowInF - 32) *5/9)] forKey:@"low_c"];
-    NSInteger highInF = [[rssDict valueForKey:@"high"] integerValue];
-    [rssDict setValue:[NSString stringWithFormat:@"%d", ((highInF - 32) *5/9)] forKey:@"high_c"];
-    */
-    //NSLog(@"rss: %@", self.rssDict);
     return self.rssArray;
 }
 
@@ -108,8 +103,11 @@ static MWRssMonitor *sharedMonitor;
     return [self.context lastObject];
 }
 
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    NSLog(@"Parse error = %@\n", parseError);
+}
+
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)eName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    //  NSLog(@"element: %@ %@",elementName, attributeDict);
 
     SEL addSelector = NSSelectorFromString([NSString stringWithFormat:@"add_%@", eName]);
     if ([self.currentElement respondsToSelector:addSelector]) {
@@ -133,6 +131,14 @@ static MWRssMonitor *sharedMonitor;
         else {
             [self.context addObject:[MWIgnore ignore]];
         }
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
+    NSString *string = [[NSString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
+    if ([[self.currentElement class] isSubclassOfClass:[NSMutableString class]]) {
+        NSMutableString* stringValue = (NSMutableString*)self.currentElement;
+        [stringValue appendString:string];     
     }
 }
 

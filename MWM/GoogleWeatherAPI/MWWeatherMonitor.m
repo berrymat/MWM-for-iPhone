@@ -29,7 +29,7 @@
 #import "MWWeatherMonitor.h"
 
 @implementation MWWeatherMonitor
-@synthesize weatherDict,city;
+@synthesize weatherDict, city;
 
 static MWWeatherMonitor *sharedMonitor;
 
@@ -60,7 +60,7 @@ static MWWeatherMonitor *sharedMonitor;
 //http://www.google.com/ig/api?weather=,,,60167000,24955000 *1000000
 -(NSDictionary*)currentWeather {
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kKAWeatherBaseURL, [self.city stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    
+    NSLog(@"%@", url);
     if (url == nil) {
         NSLog(@"invalid url");
         return nil;
@@ -78,11 +78,12 @@ static MWWeatherMonitor *sharedMonitor;
     NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
     [dataString release];
     
-    
     if (error) {
         NSLog(@"no weather data");
         return nil;
     }
+    
+    [weatherDict removeAllObjects];
     
     NSXMLParser *parser = [[NSXMLParser alloc]initWithData:data];
     [parser setShouldProcessNamespaces:YES];
@@ -103,12 +104,13 @@ static MWWeatherMonitor *sharedMonitor;
 }
 
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    //  NSLog(@"element: %@ %@",elementName, attributeDict);
-     id obj = [attributeDict objectForKey:@"data"];
-    if (obj) {
-        [self.weatherDict setObject:obj forKey:elementName];
+    //NSLog(@"element: %@ %@",elementName, attributeDict);
+    if ([weatherDict objectForKey:elementName] == nil) {
+        id obj = [attributeDict objectForKey:@"data"];
+        if (obj) {
+            [self.weatherDict setObject:obj forKey:elementName];
+        }
     }
-    
 }
 
 

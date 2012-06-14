@@ -226,8 +226,8 @@ static CGFloat widgetHeight = 32;
     }
     
     
-    NSLog(@"%@, %@, %@, %@", condition, low, high, temp);
-    UIImage *weatherIcon;
+    NSLog(@"%@,%@, %@, %@, %@", location, condition, low, high, temp);
+    UIImage *weatherIcon = nil;
     if ([condition isEqualToString:@"Clear"]) {
         weatherIcon=[UIImage imageNamed:@"weather_sunny.bmp"];
     }else if ([condition isEqualToString:@"Rain"]) {
@@ -242,8 +242,12 @@ static CGFloat widgetHeight = 32;
         weatherIcon=[UIImage imageNamed:@"weather_rain.bmp"];
     }else if ([condition isEqualToString:@"Chance of Rain"]) {
         weatherIcon=[UIImage imageNamed:@"weather_rain.bmp"];
+    }else if ([condition isEqualToString:@"Light rain"]) {
+        weatherIcon=[UIImage imageNamed:@"weather_rain.bmp"];
+    }else if ([condition isEqualToString:@"Overcast"]) {
+        weatherIcon=[UIImage imageNamed:@"weather_cloudy.bmp"];
     } else {
-        NSLog(@"unknown weather");
+        NSLog(@"unknown weather:%@", condition);
         weatherIcon=[UIImage imageNamed:@"weather_sunny.bmp"];
     }
     
